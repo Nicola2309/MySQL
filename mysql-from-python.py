@@ -1,9 +1,10 @@
 import os
+import datetime
 import pymysql
 
 # Get username from workspace, who knows?
 
-username = os.getenv('GG_USER')
+username = os.getenv('OG_USER')
 
 # Connect to database
 connection = pymysql.connect(host='localhost',
@@ -12,12 +13,11 @@ connection = pymysql.connect(host='localhost',
                             db='Chinook')
 
 try:
-    #Run a query
+    # Run a query
     with connection.cursor() as cursor:
-        sql = "SELECT * FROM Artist;"
-        cursor.execute(sql)
-        result = cursor.fetchall()
-        print(result)
+        cursor.execute("""CREATE TABLE IF NOT EXISTS
+                        Friends(name char(20), age int, DOB datetime);""")
+        # the above will display a warning, not an error, if the table already exists
 finally:
-    #Close the connection, regardless of whether the above was successful
+    # Close the connection, regardless of whether the above was successful
     connection.close()
